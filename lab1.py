@@ -42,15 +42,15 @@ def f_sqrt_sqr(x=MyNumber.from_float(np.pi), n=52):
     for k in range(n): x = x*x
     return x
 
-float_num=2.44567
+float_num = 2.44567
 print("Число с плавающей запятой:", float_num)
-num=MyNumber.from_float(float_num)
+num = MyNumber.from_float(float_num)
 print("Наше представление числа: ", num)
 print("Квадрат в арифметике с плавающей запятой:", float_num*float_num)
 print("Квадрат в нашем представлении:           ", num*num)
-n=52
+n = 52
 print("Число до преобразований: ", num)
-new_num=f_sqrt_sqr(num)
+new_num = f_sqrt_sqr(num)
 print("Число после преобразований: ", new_num)
 delta = num.to_float() - new_num.to_float()
 eps = np.abs(delta) / num.to_float()
