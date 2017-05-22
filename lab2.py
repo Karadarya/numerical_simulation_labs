@@ -95,26 +95,26 @@ def samples(N_over_two):
     x[N_over_two:]-=delta
     return np.random.permutation(x)
 
-def exact_mean():
+def exact_mean(mean):
     """Значение среднего арифметического по выборке с близкой к машинной точностью."""
     return mean
 
-def exact_variance():
+def exact_variance(delta):
     """Значение оценки дисперсии с близкой к машинной точностью."""
     return delta**2
 
 x=samples(1000000)
 print("Размер выборки:", len(x))
-print("Среднее значение:", exact_mean())
-print("Оценка дисперсии:", exact_variance())
-print("Ошибка среднего для встроенной функции:",relative_error(exact_mean(),np.mean(x)))
-print("Ошибка дисперсии для встроенной функции:",relative_error(exact_variance(),np.var(x)))
+print("Среднее значение:", exact_mean(mean))
+print("Оценка дисперсии:", exact_variance(delta))
+print("Ошибка среднего для встроенной функции:",relative_error(exact_mean(mean),np.mean(x)))
+print("Ошибка дисперсии для встроенной функции:",relative_error(exact_variance(delta),np.var(x)))
 
 def direct_mean(x):
     """Среднее через последовательное суммирование."""
     return direct_sum(x)/len(x)
 
-print("Ошибка среднего для последовательного суммирования:",relative_error(exact_mean(),direct_mean(x)))
+print("Ошибка среднего для последовательного суммирования:",relative_error(exact_mean(mean),direct_mean(x)))
 
 def direct_second_var(x):
     """Вторая оценка дисперсии через последовательное суммирование."""
@@ -129,16 +129,14 @@ def online_second_var(x):
         m2=(m2*(n-1)+x[n]**2)/n
     return m2-m**2
 
-print("Ошибка второй оценки дисперсии для последовательного суммирования:",relative_error(exact_variance(),direct_second_var(x)))
-print("Ошибка второй оценки дисперсии для однопроходного суммирования:",relative_error(exact_variance(),online_second_var(x)))
+print("Ошибка второй оценки дисперсии для последовательного суммирования:",relative_error(exact_variance(delta),direct_second_var(x)))
+print("Ошибка второй оценки дисперсии для однопроходного суммирования:",relative_error(exact_variance(delta),online_second_var(x)))
 
 def direct_first_var(x):
     """Первая оценка дисперсии через последовательное суммирование."""
     return direct_mean((x-direct_mean(x))**2)
 
-print("Ошибка первой оценки дисперсии для последовательного суммирования:",relative_error(exact_variance(),direct_first_var(x)))
-
-
+print("Ошибка первой оценки дисперсии для последовательного суммирования:",relative_error(exact_variance(delta),direct_first_var(x)))
 
 
 
